@@ -1,4 +1,4 @@
-## Overview
+# Overview
 
 Solaris is a conversational business intelligence system that allows users to generate interactive dashboards using natural language queries.
 
@@ -12,7 +12,7 @@ Instead of writing SQL or configuring BI tools manually, users simply ask a ques
 
 The platform enables non-technical users to analyze data instantly, eliminating dependency on data analysts or complex BI software.  
 
-## Problem Statement
+# Problem Statement
 
 Organizations generate large volumes of data but extracting insights often requires technical expertise.
 
@@ -29,13 +29,13 @@ Typical challenges include:
 Solaris addresses this gap by enabling natural language driven analytics, allowing users to interact with data conversationally.
 
 
-## Key Features
+# Key Features
 
-# Natural Language Query Interface
+## Natural Language Query Interface
 Users can ask analytical questions in plain English.  
 The system converts the question into an executable SQL query.  
 
-# Automated SQL Generation
+## Automated SQL Generation
 The AI model generates structured SQL queries using the database schema.
 
 *Example:*
@@ -45,11 +45,11 @@ GROUP BY Channel_Used
 ORDER BY Total_Revenue DESC;
 
 
-# Intelligent Visualization Selection
+## Intelligent Visualization Selection
 
 Solaris automatically selects the most suitable chart based on the query.
 
-# Conversational Dashboard Refinement
+## Conversational Dashboard Refinement
 
 Users can refine dashboards with follow-up queries.
 
@@ -62,7 +62,7 @@ System: Updates dashboard with filtered data
 
 This allows iterative exploration of insights.
 
-## CSV Dataset Upload
+# CSV Dataset Upload
 
 Users can upload custom datasets.
 
@@ -73,3 +73,15 @@ Workflow:
 3.A new SQLite table is generated dynamically  
 4.Users can query the uploaded dataset immediately  
 
+
+# RAG-Enhanced Schema Retrieval
+
+Solaris incorporates a lightweight Retrieval Augmented Generation (RAG) mechanism to improve SQL generation accuracy.
+
+Instead of sending the entire database schema to the AI model, the system retrieves only the relevant tables and columns related to the query.
+
+Benefits include:
+
+->Reduced hallucinations  
+->More accurate SQL generation  
+->Better scalability for larger databases  
