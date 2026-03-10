@@ -94,24 +94,24 @@ User Query  -->  RAG Retrieval Layer (Schema & Metadata)  -->   Large Language M
 # Technology Stack
 ## Frontend
 
-React
-Tailwind CSS
-Framer Motion
+React  
+Tailwind CSS  
+Framer Motion  
 
 ## Data Processing
 
-SQLite (via sql.js running in WebAssembly)
-Papa Parse (CSV ingestion)
+SQLite (via sql.js running in WebAssembly)  
+Papa Parse (CSV ingestion)  
 
 ## Visualization
 
-Recharts
+Recharts  
 
 ## AI Integration
 
-OpenRouter API
-DeepSeek Chat model
+OpenRouter API  
+DeepSeek Chat model  
 
 ## Retrieval Layer
 
-Lightweight RAG implementation for schema retrieval
+Lightweight RAG implementation for schema retrieval  
