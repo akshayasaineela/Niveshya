@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;700;900&display=swap');
+
+:root {
+  --obsidian: #020617;
+  --void: #000000;
+  --indigo-solaris: #6366F1;
+  --cyan-solaris: #06B6D4;
+  --rose-solaris: #F43F5E;
+  --glass-stroke: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-glow: rgba(99, 102, 241, 0.2);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+}
+
+body {
+  background-color: var(--obsidian);
+  color: #f1f5f9;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- SOLARIS ABSOLUTE UTILITIES --- */
+
+.absolute-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--glass-stroke);
+}
+
+.inner-glow {
+  box-shadow: inset 0 0 40px rgba(99, 102, 241, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.spectral-bg {
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.15), transparent 40%),
+              radial-gradient(circle at bottom right, rgba(6, 182, 212, 0.1), transparent 40%);
+}
+
+.hud-border {
+  position: relative;
+}
+
+/* Corner Accents */
+.hud-border::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 20px; height: 20px;
+  border-top: 2px solid var(--indigo-solaris);
+  border-left: 2px solid var(--indigo-solaris);
+  pointer-events: none;
+}
+
+.hud-border::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0; width: 20px; height: 20px;
+  border-bottom: 2px solid var(--cyan-solaris);
+  border-right: 2px solid var(--cyan-solaris);
+  pointer-events: none;
+}
+
+/* --- ANIMATIONS --- */
+
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 15s ease infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.scanline-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline-effect::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 2px;
+  background: linear-gradient(to right, transparent, var(--indigo-solaris), transparent);
+  animation: scanline 4s linear infinite;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+@keyframes orb-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -80px) scale(1.1); }
+  66% { transform: translate(-40px, 40px) scale(0.9); }
+}
+
+@keyframes orb-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-60px, 50px) scale(0.95); }
+  66% { transform: translate(70px, -30px) scale(1.05); }
+}
+
+.animate-orb-1 { animation: orb-float-1 25s ease-in-out infinite; }
+.animate-orb-2 { animation: orb-float-2 30s ease-in-out infinite; }
+
+.data-grid {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.mask-radial {
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
+
+/* --- PERSPECTIVE --- */
+.perspective-2000 { perspective: 2000px; }
+.preserve-3d { transform-style: preserve-3d; }
+
+/* --- CUSTOM SCROLLBAR --- */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--indigo-solaris);
+}
+
+/* --- CHART OVERRIDES FOR DARK MODE --- */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.03);
+}
+
+.recharts-text {
+  fill: #64748b !important;
+  font-weight: 600;
+  font-size: 10px;
+}
+
+.recharts-legend-item-text {
+  color: #94a3b8 !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

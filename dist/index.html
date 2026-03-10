@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversational BI Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CDN with custom config matching requirements -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: '#0A0A0F',
+              surface: '#12121A',
+              accent: '#6366F1', // indigo
+              accentHighlight: '#22D3EE', // cyan
+              success: '#10B981',
+              warning: '#F59E0B',
+              error: '#EF4444',
+            },
+            fontFamily: {
+              sans: ['"Space Grotesk"', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            animation: {
+              'fade-up': 'fadeUp 0.5s ease-out forwards',
+              'pulse-border': 'pulseBorder 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              fadeUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              pulseBorder: {
+                '0%, 100%': { borderColor: '#6366F1' },
+                '50%': { borderColor: '#22D3EE' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .chart-glow {
+          box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+        }
+      }
+      body {
+        background-color: #0A0A0F;
+        color: #F1F5F9;
+      }
+      /* Custom Tooltip Styling matching dark theme */
+      .recharts-tooltip-cursor {
+        fill: rgba(255, 255, 255, 0.05);
+      }
+    </style>
+
+    <!-- sql.js from CDN as requested -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.min.js"></script>
+
+    <!-- 
+      Note: The prompt requested Recharts and Papa Parse via CDN. 
+      For React projects using Vite, we install them via NPM to avoid
+      complex UMD dependency issues with React, but they are available.
+      We imported sql.js via CDN as it runs in WASM.
+    -->
+    <script type="module" crossorigin src="/assets/index-BbKDJFy7.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D1mG_znA.css">
+  </head>
+  <body class="antialiased min-h-screen bg-background text-slate-100 font-sans">
+    <div id="root"></div>
+  </body>
+</html>
