@@ -89,24 +89,29 @@ Benefits include:
 
 # System Architecture
 
-User Query  
-    │  
-    ▼  
-RAG Retrieval Layer  
-(Schema & Metadata)  
-    │  
-    ▼  
-Large Language Model  
-(Natural Language → SQL)  
-    │  
-    ▼  
-SQLite Database (sql.js)   
-    │  
-    ▼  
-Query Result  
-    │  
-    ▼  
-Visualization Engine (Recharts)  
-    │  
-    ▼  
-Interactive Dashboard  
+User Query  -->  RAG Retrieval Layer (Schema & Metadata)  -->   Large Language Model (Natural Language → SQL)  -->  SQLite Database (sql.js)  --> Query Result  -->  Visualization Engine (Recharts)  --> Interactive Dashboard 
+
+# Technology Stack
+## Frontend
+
+React
+Tailwind CSS
+Framer Motion
+
+## Data Processing
+
+SQLite (via sql.js running in WebAssembly)
+Papa Parse (CSV ingestion)
+
+## Visualization
+
+Recharts
+
+## AI Integration
+
+OpenRouter API
+DeepSeek Chat model
+
+## Retrieval Layer
+
+Lightweight RAG implementation for schema retrieval
