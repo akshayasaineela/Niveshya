@@ -10,4 +10,66 @@ Instead of writing SQL or configuring BI tools manually, users simply ask a ques
 4.Selects the appropriate visualization  
 5.Displays an interactive dashboard in real time  
 
-The platform enables non-technical users to analyze data instantly, eliminating dependency on data analysts or complex BI software.
+The platform enables non-technical users to analyze data instantly, eliminating dependency on data analysts or complex BI software.  
+
+## Problem Statement
+
+Organizations generate large volumes of data but extracting insights often requires technical expertise.
+
+Typical challenges include:
+
+->Business users lack SQL knowledge
+
+->Analysts become bottlenecks for reporting
+
+->Traditional BI tools require training
+
+->Decision-making becomes slow due to delayed insights
+
+Solaris addresses this gap by enabling natural language driven analytics, allowing users to interact with data conversationally.
+
+
+## Key Features
+
+# Natural Language Query Interface
+Users can ask analytical questions in plain English.  
+The system converts the question into an executable SQL query.  
+
+# Automated SQL Generation
+The AI model generates structured SQL queries using the database schema.
+
+*Example:*
+SELECT Channel_Used, SUM(Revenue) AS Total_Revenue
+FROM marketing_campaigns
+GROUP BY Channel_Used
+ORDER BY Total_Revenue DESC;
+
+
+# Intelligent Visualization Selection
+
+Solaris automatically selects the most suitable chart based on the query.
+
+# Conversational Dashboard Refinement
+
+Users can refine dashboards with follow-up queries.
+
+*Example flow:*
+User: Show revenue by channel
+System: Displays bar chart
+
+User: Now show only social media campaigns
+System: Updates dashboard with filtered data
+
+This allows iterative exploration of insights.
+
+## CSV Dataset Upload
+
+Users can upload custom datasets.
+
+Workflow:
+
+1.Upload CSV file  
+2.System parses dataset using Papa Parse  
+3.A new SQLite table is generated dynamically  
+4.Users can query the uploaded dataset immediately  
+
