@@ -89,24 +89,24 @@ Benefits include:
 
 # System Architecture
 
-User Query
-    │
-    ▼
-RAG Retrieval Layer
-(Schema & Metadata)
-    │
-    ▼
-Large Language Model
-(Natural Language → SQL)
-    │
-    ▼
-SQLite Database (sql.js)
-    │
-    ▼
-Query Result
-    │
-    ▼
-Visualization Engine (Recharts)
-    │
-    ▼
-Interactive Dashboard
+User Query  
+    │  
+    ▼  
+RAG Retrieval Layer  
+(Schema & Metadata)  
+    │  
+    ▼  
+Large Language Model  
+(Natural Language → SQL)  
+    │  
+    ▼  
+SQLite Database (sql.js)   
+    │  
+    ▼  
+Query Result  
+    │  
+    ▼  
+Visualization Engine (Recharts)  
+    │  
+    ▼  
+Interactive Dashboard  
