@@ -85,3 +85,28 @@ Benefits include:
 ->Reduced hallucinations  
 ->More accurate SQL generation  
 ->Better scalability for larger databases  
+
+
+# System Architecture
+
+User Query
+    │
+    ▼
+RAG Retrieval Layer
+(Schema & Metadata)
+    │
+    ▼
+Large Language Model
+(Natural Language → SQL)
+    │
+    ▼
+SQLite Database (sql.js)
+    │
+    ▼
+Query Result
+    │
+    ▼
+Visualization Engine (Recharts)
+    │
+    ▼
+Interactive Dashboard
