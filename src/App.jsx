@@ -678,7 +678,8 @@ IMPORTANT: Use exact column names from the schema. For aggregate queries, use 'A
             if (firstNumeric) questionPool.push(`What is the average ${firstNumeric} and which rows exceed it?`);
             if (cleanHeaders.length > 2) questionPool.push(`Show me the top 10 rows sorted by ${firstNumeric || cleanHeaders[1]} descending`);
 
-            var csvSuggestions = [...new Set(questionPool)].sort(() => 0.5 - Math.random()).slice(0, 4);
+            const askedQuestions = new Set(queries.map(q => q.text));
+            var csvSuggestions = [...new Set(questionPool.filter(q => !askedQuestions.has(q)))].sort(() => 0.5 - Math.random()).slice(0, 4);
           }
 
 
@@ -814,7 +815,8 @@ IMPORTANT: Use exact column names from the schema. For aggregate queries, use 'A
                   if (hasDate) pool.push(`Which month had the biggest spike in ${hasRevenue ? 'revenue' : yKey}?`);
                   if (hasRevenue) pool.push(`Compare the top and bottom performers by revenue — what's the gap?`);
 
-                  const finalSuggestions = [...new Set(pool.sort(() => 0.5 - Math.random()))].slice(0, 3);
+                  const askedQuestions = new Set(queries.map(q => q.text));
+                  const finalSuggestions = [...new Set(pool.filter(q => !askedQuestions.has(q)).sort(() => 0.5 - Math.random()))].slice(0, 3);
                   if (finalSuggestions.length === 0) return null;
 
                   return (
