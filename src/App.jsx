@@ -9,7 +9,7 @@ import {
   Upload, FileText, Settings, X, Search, Sparkles, Database, CheckCircle2,
   ChevronRight, BarChart3, MessageSquare, Shield, TrendingUp, AlertCircle,
   Code, Download, Maximize2, Plus, Loader2, Play, Key, Activity,
-  Cpu, Zap, Globe, Lock, Terminal
+  Cpu, Zap, Globe, Lock, Terminal, Moon, Sun, User, LayoutDashboard, History, Lightbulb
 } from 'lucide-react';
 import {
   motion, AnimatePresence, useScroll, useTransform,
@@ -89,7 +89,7 @@ const SOLARIS_COLORS = ["#6366F1", "#06B6D4", "#F43F5E", "#10B981", "#F59E0B", "
 
 const DynamicChart = ({ data, chartType, config, isExpanded = false }) => {
   if (!data || data.length === 0) return (
-    <div className="h-full flex items-center justify-center text-slate-500 font-bold bg-white/5 rounded-[2rem] border border-dashed border-white/10">
+    <div className="h-full flex items-center justify-center text-[var(--text-muted)] font-medium bg-[var(--bg-secondary)] rounded-2xl border border-dashed border-[var(--border-color)]">
       Awaiting context signals...
     </div>
   );
@@ -133,17 +133,17 @@ const DynamicChart = ({ data, chartType, config, isExpanded = false }) => {
     const renderTooltip = ({ active, payload, label }) => {
       if (active && payload && payload.length) {
         return (
-          <div className="absolute-glass p-5 rounded-2xl shadow-2xl border-white/20 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 border-b border-white/5 pb-2">{label}</p>
+          <div className="enterprise-card p-4 rounded-xl shadow-[var(--shadow-elevated)] relative overflow-hidden z-50">
+            <div className="absolute top-0 left-0 w-1 h-full bg-[var(--accent-indigo)]"></div>
+            <p className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 border-b border-[var(--border-color)] pb-2">{label}</p>
             <div className="space-y-2">
               {payload.map((p, i) => (
-                <div key={i} className="flex justify-between items-center gap-10">
-                  <span className="text-xs font-bold text-slate-300 flex items-center gap-2">
+                <div key={i} className="flex justify-between items-center gap-8">
+                  <span className="text-sm font-medium text-[var(--text-secondary)] flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }}></div>
                     {p.name}
                   </span>
-                  <span className="text-sm font-black text-white font-mono">
+                  <span className="text-sm font-bold text-[var(--text-primary)] font-mono">
                     {typeof p.value === 'number' ? p.value.toLocaleString() : p.value}
                   </span>
                 </div>
@@ -166,10 +166,10 @@ const DynamicChart = ({ data, chartType, config, isExpanded = false }) => {
       line: (
         <ResponsiveContainer {...commonProps}>
           <LineChart data={plotData}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
-            <XAxis dataKey={resolvedXKey} tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-            <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-            <Tooltip content={renderTooltip} cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 2 }} />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-color)" />
+            <XAxis dataKey={resolvedXKey} tick={{ fill: 'var(--text-secondary)', fontSize: 10 }} axisLine={{ stroke: 'var(--border-color)' }} />
+            <YAxis tick={{ fill: 'var(--text-secondary)', fontSize: 10 }} axisLine={{ stroke: 'var(--border-color)' }} />
+            <Tooltip content={renderTooltip} cursor={{ stroke: 'var(--border-color)', strokeWidth: 2 }} />
             <Legend iconType="circle" />
             {resolvedYKeys.map((k, i) => (
               <Line key={`line-${k}-${i}`} type="monotone" dataKey={k} stroke={colors[i % colors.length]} strokeWidth={4} dot={{ r: 4, fill: colors[i % colors.length], strokeWidth: 0 }} activeDot={{ r: 8, strokeWidth: 0 }} />
@@ -180,10 +180,10 @@ const DynamicChart = ({ data, chartType, config, isExpanded = false }) => {
       bar: (
         <ResponsiveContainer {...commonProps}>
           <BarChart data={plotData}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
-            <XAxis dataKey={resolvedXKey} tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-            <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-            <Tooltip content={renderTooltip} cursor={{ fill: 'rgba(255,255,255,0.02)' }} />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-color)" />
+            <XAxis dataKey={resolvedXKey} tick={{ fill: 'var(--text-secondary)', fontSize: 10 }} axisLine={{ stroke: 'var(--border-color)' }} />
+            <YAxis tick={{ fill: 'var(--text-secondary)', fontSize: 10 }} axisLine={{ stroke: 'var(--border-color)' }} />
+            <Tooltip content={renderTooltip} cursor={{ fill: 'var(--bg-tertiary)' }} />
             <Legend iconType="circle" />
             {resolvedYKeys.map((k, i) => (
               <Bar key={`bar-${k}-${i}`} dataKey={k} fill={colors[i % colors.length]} radius={[4, 4, 0, 0]} barSize={isExpanded ? 40 : 25} />
@@ -240,9 +240,9 @@ const DynamicChart = ({ data, chartType, config, isExpanded = false }) => {
                 </linearGradient>
               ))}
             </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
-            <XAxis dataKey={resolvedXKey} tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
-            <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-color)" />
+            <XAxis dataKey={resolvedXKey} tick={{ fill: 'var(--text-secondary)', fontSize: 10 }} axisLine={{ stroke: 'var(--border-color)' }} />
+            <YAxis tick={{ fill: 'var(--text-secondary)', fontSize: 10 }} axisLine={{ stroke: 'var(--border-color)' }} />
             <Tooltip content={renderTooltip} />
             <Legend iconType="circle" />
             {yKeys.map((k, i) => (
@@ -356,15 +356,19 @@ const Particles = () => {
 // --- APP COMPONENT ---
 export default function App() {
   const [page, setPage] = useState('landing');
+  const [theme, setTheme] = useState(localStorage.getItem('solaris_theme') || 'light');
+
+  useEffect(() => {
+    localStorage.setItem('solaris_theme', theme);
+  }, [theme]);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-100 overflow-x-hidden">
-      <Particles />
+    <div className={`min-h-screen ${theme} bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-x-hidden font-sans transition-colors duration-300`}>
       <AnimatePresence mode="wait">
         {page === 'landing' ? (
-          <LandingPage key="landing" onEnter={() => setPage('dashboard')} />
+          <LandingPage key="landing" onEnter={() => setPage('dashboard')} theme={theme} setTheme={setTheme} />
         ) : (
-          <Dashboard key="dashboard" />
+          <Dashboard key="dashboard" theme={theme} setTheme={setTheme} />
         )}
       </AnimatePresence>
     </div>
@@ -372,77 +376,75 @@ export default function App() {
 }
 
 // --- LANDING PAGE ---
-const LandingPage = ({ onEnter }) => {
+const LandingPage = ({ onEnter, theme, setTheme }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 1.1, filter: "blur(20px)" }}
-      transition={{ duration: 1 }}
-      className="relative z-10 min-h-screen flex flex-col pt-32 px-6"
+      exit={{ opacity: 0, scale: 0.98, filter: "blur(10px)" }}
+      transition={{ duration: 0.8 }}
+      className="relative z-10 min-h-screen flex flex-col pt-24 px-8"
     >
-      <nav className="fixed top-8 inset-x-8 z-50 flex justify-between items-center p-5 absolute-glass rounded-[2rem] border-white/5">
-        <div className="flex items-center gap-3 pl-4">
-          <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <Sparkles className="w-6 h-6 text-white" />
+      <nav className="fixed top-6 inset-x-8 z-50 flex justify-between items-center px-8 py-4 enterprise-glass rounded-2xl">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-[var(--accent-indigo)] rounded-xl flex items-center justify-center shadow-lg">
+            <BarChart3 className="w-6 h-6 text-white" />
           </div>
-          <span className="text-2xl font-black tracking-tighter uppercase italic">Solaris</span>
+          <div className="flex flex-col">
+            <span className="text-xl font-bold tracking-tight text-[var(--text-primary)] leading-none">SOLARIS</span>
+            <span className="text-[10px] font-medium text-[var(--text-muted)] uppercase tracking-wider">Conversational BI</span>
+          </div>
         </div>
-        <button
-          onClick={onEnter}
-          className="bg-white text-black px-10 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-indigo-500 hover:text-white transition-all active:scale-95 shadow-2xl"
-        >
-          Activate Engine
-        </button>
+        <div className="flex items-center gap-4">
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-3 rounded-xl hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)] transition-colors">
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+          <button
+            onClick={onEnter}
+            className="bg-[var(--accent-indigo)] text-white px-8 py-3 rounded-xl text-sm font-semibold hover:bg-[var(--accent-indigo-hover)] transition-all shadow-sm"
+          >
+            Launch Workspace
+          </button>
+        </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto w-full text-center py-20">
+      <main className="max-w-6xl mx-auto w-full text-center py-32 flex-1 flex flex-col justify-center">
         <motion.div
-          initial={{ y: 50, opacity: 0 }}
+          initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 1 }}
-          className="relative inline-block mb-10"
+          transition={{ delay: 0.2, duration: 0.8 }}
+          className="mb-16"
         >
-          <div className="absolute inset-0 bg-indigo-500/20 blur-[120px] rounded-full scale-150" />
-          <h1 className="text-[10vw] md:text-[8vw] font-black leading-[0.8] tracking-tighter mb-4 text-white">
-            SOLARIS<br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-rose-400 to-indigo-400 animate-gradient-x italic">ABSOLUTE.</span>
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-[var(--text-primary)] mb-6">
+            Enterprise Intelligence,<br />
+            <span className="text-[var(--accent-indigo)]">Powered by AI.</span>
           </h1>
-          <p className="text-xl md:text-3xl font-light tracking-tight text-slate-400 max-w-4xl mx-auto mt-10">
-            The Singularity in Conversational Data. <br />
-            High-performance WASM processing wrapped in Spectral Obsidian.
+          <p className="text-xl text-[var(--text-secondary)] max-w-2xl mx-auto">
+            Generate data insights, interactive dashboards, and actionable narratives by simply asking questions in natural language.
           </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 1.2 }}
-          className="mt-20 grid md:grid-cols-3 gap-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="grid md:grid-cols-3 gap-6"
         >
           {[
-            { icon: Cpu, title: "WASM Core", desc: "Native SQLite execution for sub-millisecond dataset querying." },
-            { icon: Zap, title: "DeepSync", desc: "Autonomous AI schema mapping with contextual logical pruning." },
-            { icon: Shield, title: "Absolute Security", desc: "End-to-end local processing. Your patterns never leave the core." }
+            { icon: Database, title: "Seamless Integration", desc: "Instantly connect to your CSV datasets and analyze them locally." },
+            { icon: Sparkles, title: "Natural Language", desc: "No SQL required. Ask complex analytical questions in plain English." },
+            { icon: LayoutDashboard, title: "Dynamic Dashboards", desc: "Watch insights materialize into interactive, exportable charts." }
           ].map((feat, i) => (
-            <div key={i} className="absolute-glass p-12 rounded-[3rem] border-white/5 text-left group hover:border-indigo-500/30 transition-all cursor-crosshair">
-              <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center mb-8 border border-indigo-500/20 group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-500">
-                <feat.icon className="w-8 h-8 text-indigo-400 group-hover:text-white" />
+            <div key={i} className="enterprise-card p-8 text-left hover:border-[var(--accent-indigo)] hover:shadow-[var(--shadow-elevated)] transition-all duration-300">
+              <div className="w-12 h-12 rounded-lg bg-[var(--bg-tertiary)] flex items-center justify-center mb-6 text-[var(--accent-indigo)]">
+                <feat.icon className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-black text-white mb-4 tracking-tighter uppercase">{feat.title}</h3>
-              <p className="text-slate-400 font-medium leading-relaxed">{feat.desc}</p>
+              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-3">{feat.title}</h3>
+              <p className="text-[var(--text-secondary)] text-sm leading-relaxed">{feat.desc}</p>
             </div>
           ))}
         </motion.div>
       </main>
-
-      <footer className="mt-auto py-20 text-center">
-        <div className="flex items-center justify-center gap-4 text-[10px] font-black text-slate-500 uppercase tracking-[0.5em]">
-          <span className="flex items-center gap-2"><Globe className="w-3 h-3" /> Global Status: Online</span>
-          <span className="w-1 h-1 rounded-full bg-slate-700" />
-          <span>v4.0.0 Stable</span>
-        </div>
-      </footer>
     </motion.div>
   );
 };
@@ -485,7 +487,7 @@ const buildSchemaWithSamples = (database) => {
 };
 
 // --- DASHBOARD ---
-function Dashboard() {
+function Dashboard({ theme, setTheme }) {
   const [db, setDb] = useState(null);
   const [apiKey, setApiKey] = useState(localStorage.getItem('openrouter_api_key') || '');
   const [showSettings, setShowSettings] = useState(!localStorage.getItem('openrouter_api_key'));
@@ -495,6 +497,7 @@ function Dashboard() {
   const [expandedChart, setExpandedChart] = useState(null);
   const [schemaInfo, setSchemaInfo] = useState('');
   const [activeTables, setActiveTables] = useState([]);
+  const [activeView, setActiveView] = useState('dashboard'); // 'dashboard' | 'data-sources' | 'history' | 'insights'
 
   const bottomRef = useRef(null);
 
@@ -698,203 +701,428 @@ IMPORTANT: Use exact column names from the schema. For aggregate queries, use 'A
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex h-screen relative z-10 spectral-bg">
-      <aside className="w-72 absolute-glass m-6 rounded-[2.5rem] border-white/5 flex flex-col overflow-hidden shadow-2xl">
-        <div className="p-10 border-b border-white/5">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col h-screen bg-[var(--bg-primary)]">
+      {/* Top Navigation Bar */}
+      <nav className="h-16 border-b border-[var(--border-color)] bg-[var(--bg-primary)] px-6 flex items-center justify-between shrink-0 z-20 sticky top-0">
+        <div className="flex items-center gap-8">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-indigo-500 rounded-xl flex items-center justify-center"><Terminal className="w-4 h-4 text-white" /></div>
-            <span className="text-xl font-black uppercase tracking-tighter">Core Rail</span>
+            <div className="w-8 h-8 bg-[var(--accent-indigo)] rounded-lg flex items-center justify-center shadow-sm">
+              <BarChart3 className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-bold tracking-tight text-[var(--text-primary)] leading-none">SOLARIS</span>
+              <span className="text-[9px] font-medium text-[var(--text-muted)] uppercase tracking-wider">Conversational BI</span>
+            </div>
+          </div>
+
+          {/* Dataset Selector */}
+          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-md">
+            <Database className="w-4 h-4 text-[var(--text-secondary)]" />
+            <select className="bg-transparent text-sm font-medium text-[var(--text-primary)] outline-none border-none focus:ring-0 cursor-pointer w-32 truncate">
+              {activeTables.map(t => <option key={t} value={t}>{t}</option>)}
+              {activeTables.length === 0 && <option value="">No Data Sources</option>}
+            </select>
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto p-8 space-y-10 custom-scrollbar">
-          <div>
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-6 block">Cached Pools</span>
-            <div className="space-y-3">
-              {activeTables.map(t => (
-                <div key={t} className="p-3 bg-white/5 border border-white/5 rounded-2xl flex items-center gap-3 group hover:border-indigo-500/40 transition-all">
-                  <Database className="w-4 h-4 text-indigo-400 shrink-0" />
-                  <span className="text-sm font-bold text-slate-200 truncate tracking-tight">{t}</span>
-                </div>
-              ))}
-              <label className="flex items-center justify-center p-4 border border-indigo-500/20 border-dashed rounded-2xl cursor-pointer hover:bg-indigo-500/10 transition-all text-indigo-400 hover:text-indigo-300">
-                <Plus className="w-4 h-4" />
+
+        <div className="flex items-center gap-4">
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-2 rounded-lg hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] transition-colors">
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+          <div className="w-8 h-8 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-center text-[var(--text-secondary)] cursor-pointer">
+            <User className="w-4 h-4" />
+          </div>
+        </div>
+      </nav>
+
+      <div className="flex flex-1 overflow-hidden">
+        {/* Left Sidebar Navigation */}
+        <aside className="w-64 border-r border-[var(--border-color)] bg-[var(--bg-secondary)] flex flex-col hidden md:flex shrink-0">
+          <div className="p-4 space-y-1">
+            <button onClick={() => setActiveView('dashboard')} className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeView === 'dashboard' ? 'bg-[var(--accent-indigo)] text-white shadow-sm' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'}`}>
+              <LayoutDashboard className="w-4 h-4" /> Dashboard
+            </button>
+            <button onClick={() => setActiveView('data-sources')} className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeView === 'data-sources' ? 'bg-[var(--accent-indigo)] text-white shadow-sm' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'}`}>
+              <Database className="w-4 h-4" /> Data Sources
+            </button>
+            <button onClick={() => setActiveView('history')} className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeView === 'history' ? 'bg-[var(--accent-indigo)] text-white shadow-sm' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'}`}>
+              <History className="w-4 h-4" /> Query History
+            </button>
+            <button onClick={() => setActiveView('insights')} className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeView === 'insights' ? 'bg-[var(--accent-indigo)] text-white shadow-sm' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'}`}>
+              <Lightbulb className="w-4 h-4" /> Insights
+            </button>
+          </div>
+          <div className="mt-auto p-4 border-t border-[var(--border-color)] space-y-4">
+            <div className="bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-lg p-4 shadow-sm text-center">
+              <p className="text-xs text-[var(--text-secondary)] font-medium mb-3">Add Dataset</p>
+              <label className="flex items-center justify-center gap-2 px-3 py-2 bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)] border-dashed rounded-md cursor-pointer transition-all text-[var(--text-primary)] text-sm">
+                <Upload className="w-4 h-4" /> Upload CSV
                 <input type="file" className="hidden" onChange={handleCSVUpload} />
               </label>
             </div>
-          </div>
-        </div>
-        <div className="p-8 border-t border-white/5">
-          <button onClick={() => setShowSettings(true)} className="w-full flex items-center gap-3 p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all border border-transparent hover:border-white/5">
-            <Settings className="w-4 h-4 text-slate-400" />
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Config</span>
-          </button>
-        </div>
-      </aside>
 
-      <main className="flex-1 flex flex-col p-6 pl-0">
-        <div className="flex-1 overflow-y-auto p-12 space-y-16 pb-48 custom-scrollbar">
-          {queries.length === 0 && (
-            <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-              <div className="w-24 h-24 absolute-glass rounded-[2rem] border-indigo-500/20 mb-8 flex items-center justify-center"><Activity className="w-12 h-12 text-indigo-500 animate-pulse" /></div>
-              <h2 className="text-3xl font-black tracking-tighter uppercase mb-4">Signal Awaiting.</h2>
-              <p className="max-w-md text-slate-400 font-medium">Input natural language prompts to activate the Solaris synthesis engine.</p>
-            </div>
-          )}
-
-          <AnimatePresence>
-            {queries.map((q) => (
-              <motion.div key={q.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-5xl mx-auto space-y-8">
-                <div className="flex justify-end pr-10">
-                  <div className="bg-indigo-600 px-8 py-5 rounded-[2rem] rounded-tr-sm shadow-2xl relative">
-                    <div className="absolute top-0 right-0 w-8 h-8 bg-indigo-500 blur-2xl rounded-full" />
-                    <p className="text-lg font-bold text-white tracking-tight relative z-10">{q.text}</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-6">
-                  <div className="w-12 h-12 absolute-glass rounded-2xl border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-xl shrink-0"><Sparkles className="w-6 h-6 animate-pulse" /></div>
-                  <div className="flex-1 min-w-0">
-                    {q.isLoading ? (
-                      <div className="inline-flex absolute-glass px-6 py-4 rounded-3xl border-white/5 items-center gap-4 shadow-inner mt-2">
-                        <Loader2 className="w-5 h-5 text-indigo-400 animate-spin" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-400 italic">Synthesizing_Patterns...</span>
-                      </div>
-                    ) : (
-                      <DashboardCard result={q.result} onExpand={() => setExpandedChart(q)} onRefine={(t) => handleQuery(t, q.result)} onFollowUp={(t) => handleQuery(t)} />
-                    )}
-                  </div>
-                </div>
-
-                {/* CSV Upload: Show first-look question prompts */}
-                {!q.isLoading && q.csvSuggestions && q.csvSuggestions.length > 0 && (
-                  <div className="flex flex-col gap-3 pl-[72px] mt-2">
-                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-cyan-600/70">Start Exploring ↗</span>
-                    <div className="flex flex-wrap gap-3">
-                      {q.csvSuggestions.map((suggestion, i) => (
-                        <button
-                          key={i}
-                          onClick={() => handleQuery(suggestion)}
-                          className="px-5 py-2.5 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-[10px] font-black tracking-wide text-cyan-300 hover:text-white hover:border-cyan-400/60 hover:bg-cyan-500/20 transition-all active:scale-95 flex items-center gap-2"
-                        >
-                          <span className="text-cyan-500">→</span> {suggestion}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* AI Query result: Show dynamic follow-up suggestions */}
-                {!q.isLoading && !q.csvSuggestions && q.result && !q.result.clarification && (() => {
-                  const r = q.result;
-                  const cols = r.data && r.data[0] ? Object.keys(r.data[0]) : [];
-                  const xKey = r.config?.xKey || cols[0] || '';
-                  const yKey = (r.config?.yKeys && r.config.yKeys[0]) || cols[1] || '';
-
-                  const hasRevenue = cols.some(c => c.toLowerCase().includes('revenue'));
-                  const hasROI = cols.some(c => c.toLowerCase().includes('roi'));
-                  const hasCost = cols.some(c => c.toLowerCase().includes('cost') || c.toLowerCase().includes('acquisition'));
-                  const hasClicks = cols.some(c => c.toLowerCase().includes('click'));
-                  const hasConversions = cols.some(c => c.toLowerCase().includes('conversion'));
-                  const hasEngagement = cols.some(c => c.toLowerCase().includes('engagement'));
-                  const hasDate = cols.some(c => c.toLowerCase().includes('date'));
-                  const xIsCategory = xKey && !xKey.toLowerCase().includes('date');
-
-                  const pool = [];
-                  if (hasROI && xIsCategory) pool.push(`Which ${xKey} is bleeding money with negative ROI?`);
-                  if (hasRevenue && hasConversions) pool.push(`What's the revenue per conversion across each ${xKey}?`);
-                  if (hasClicks && hasConversions) pool.push(`Which ${xKey} has the worst click-to-conversion rate?`);
-                  if (hasCost && hasRevenue) pool.push(`Show the profit margin breakdown — revenue minus acquisition cost`);
-                  if (hasEngagement && xIsCategory) pool.push(`Which ${xKey} drives the highest engagement score?`);
-                  if (hasDate) pool.push(`Has performance improved or declined over the last 6 months?`);
-                  if (hasRevenue && xIsCategory) pool.push(`What share of total revenue does each ${xKey} control?`);
-                  if (hasROI) pool.push(`Find the top 3 highest ROI performers and what they have in common`);
-                  if (hasConversions && hasCost) pool.push(`Which ${xKey} delivers the cheapest conversions?`);
-                  if (hasClicks && xIsCategory) pool.push(`Show the ${xKey} with above-average clicks but below-average conversions`);
-                  if (yKey) pool.push(`What's the statistical average versus top performer gap in ${yKey}?`);
-                  if (xIsCategory) pool.push(`Rank all ${xKey} values by ${yKey || 'performance'} descending`);
-                  if (hasDate) pool.push(`Which month had the biggest spike in ${hasRevenue ? 'revenue' : yKey}?`);
-                  if (hasRevenue) pool.push(`Compare the top and bottom performers by revenue — what's the gap?`);
-
-                  const askedQuestions = new Set(queries.map(q => q.text));
-                  const finalSuggestions = [...new Set(pool.filter(q => !askedQuestions.has(q)).sort(() => 0.5 - Math.random()))].slice(0, 3);
-                  if (finalSuggestions.length === 0) return null;
-
-                  return (
-                    <div className="flex flex-wrap gap-3 pl-[72px] mt-2">
-                      <span className="w-full text-[9px] font-black uppercase tracking-[0.3em] text-slate-600 mb-1">Explore Further ↗</span>
-                      {finalSuggestions.map((suggestion, i) => (
-                        <button
-                          key={i}
-                          onClick={() => handleQuery(suggestion)}
-                          className="px-5 py-2.5 absolute-glass border border-indigo-500/20 rounded-full text-[10px] font-black tracking-wide text-indigo-300 hover:text-white hover:border-indigo-500/60 hover:bg-indigo-500/10 transition-all active:scale-95 flex items-center gap-2"
-                        >
-                          <span className="text-indigo-500">↗</span> {suggestion}
-                        </button>
-                      ))}
-                    </div>
-                  );
-                })()}
-
-
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          <div ref={bottomRef} className="h-10" />
-        </div>
-
-        <div className="absolute bottom-8 inset-x-0 px-12 pl-[320px]">
-          <div className="max-w-4xl mx-auto absolute-glass p-2 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.5)] border-white/5 flex items-center gap-3 scanline-effect">
-            <input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleQuery(inputValue)}
-              placeholder="Command Solaris Engine..."
-              className="flex-1 bg-transparent px-6 py-3 outline-none text-sm font-medium tracking-tight text-white placeholder:text-slate-600"
-            />
-            <button onClick={() => handleQuery(inputValue)} className="w-10 h-10 bg-white text-[#020617] rounded-xl hover:bg-indigo-500 hover:text-white transition-all shadow-xl active:scale-90 flex items-center justify-center group">
-              <Play className="w-4 h-4 fill-current transition-transform group-hover:translate-x-0.5" />
+            <button onClick={() => setShowSettings(true)} className="w-full flex items-center gap-3 px-4 py-2.5 text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)] rounded-lg font-medium text-sm transition-all">
+              <Settings className="w-4 h-4" /> Settings
             </button>
           </div>
-        </div>
-      </main>
+        </aside>
 
-      {showSettings && (
-        <div className="fixed inset-0 bg-[#020617]/90 backdrop-blur-3xl z-[100] flex items-center justify-center p-6">
-          <div className="absolute-glass max-w-xl w-full p-16 rounded-[4rem] border-white/5 shadow-2xl relative text-center">
-            <div className="w-20 h-20 bg-indigo-500/20 rounded-[2rem] border border-indigo-500/30 flex items-center justify-center mx-auto mb-10"><Lock className="w-10 h-10 text-indigo-400" /></div>
-            <h2 className="text-4xl font-black uppercase tracking-tighter mb-4 text-white">Authorize Link</h2>
-            <p className="text-slate-500 font-bold mb-12 uppercase tracking-widest text-xs">Secure Handshake: OpenRouter Interface</p>
-            <div className="space-y-8">
-              <input
-                type="password"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                className="w-full bg-white/5 border border-white/5 rounded-[2rem] px-10 py-6 text-sm font-mono focus:ring-4 ring-indigo-500/20 outline-none transition-all placeholder:text-slate-700 text-indigo-400 text-center"
-                placeholder="ENTER_API_TOKEN"
-              />
-              <button onClick={() => handleSaveApiKey(apiKey)} className="w-full bg-indigo-600 text-white font-black py-7 rounded-[2rem] hover:bg-indigo-700 active:scale-95 transition-all text-xl uppercase tracking-tighter italic">Establish Sync</button>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">Local storage encryption active. Solaris does not persist tokens on external clusters.</p>
-            </div>
-          </div>
-        </div>
-      )}
+        {/* Main Interface */}
+        <main className="flex-1 flex flex-col relative bg-[var(--bg-primary)] overflow-hidden">
+          <div className="flex-1 overflow-y-auto p-8 lg:p-12 space-y-12 pb-32 custom-scrollbar">
 
-      {expandedChart && (
-        <div className="fixed inset-0 bg-[#020617]/95 backdrop-blur-3xl z-[200] flex items-center justify-center p-12 min-[1400px]:p-24">
-          <div className="absolute-glass w-full h-full rounded-[4rem] border-white/5 flex flex-col shadow-2xl overflow-hidden">
-            <div className="p-16 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
-              <div>
-                <h2 className="text-5xl font-black uppercase tracking-tighter mb-2 text-white italic">{expandedChart.result.config?.title}</h2>
-                <p className="text-slate-400 font-bold tracking-widest uppercase text-xs">{expandedChart.result.config?.description}</p>
+            {activeView === 'data-sources' && (
+              <div className="max-w-5xl mx-auto animation-fade-in">
+                <div className="mb-8">
+                  <h2 className="text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-2">Data Sources</h2>
+                  <p className="text-[var(--text-secondary)]">Manage your connected SQLite/CSV datasets.</p>
+                </div>
+
+                {activeTables.length === 0 ? (
+                  <div className="enterprise-card p-12 text-center flex flex-col items-center justify-center">
+                    <div className="w-16 h-16 bg-[var(--bg-secondary)] rounded-full flex items-center justify-center mb-4"><Database className="w-8 h-8 text-[var(--text-muted)]" /></div>
+                    <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">No Datasets Connected</h3>
+                    <p className="text-[var(--text-secondary)] text-sm mb-6 max-w-sm">Upload a CSV file from the sidebar to create an in-memory SQLite database and start querying.</p>
+                    <label className="bg-[var(--accent-indigo)] text-white px-6 py-2.5 rounded-lg font-medium hover:bg-[var(--accent-indigo-hover)] transition-colors cursor-pointer inline-flex items-center gap-2">
+                      <Upload className="w-4 h-4" /> Upload CSV
+                      <input type="file" className="hidden" onChange={(e) => { handleCSVUpload(e); setActiveView('dashboard'); }} />
+                    </label>
+                  </div>
+                ) : (
+                  <div className="grid gap-6">
+                    {activeTables.map(tableName => (
+                      <div key={tableName} className="enterprise-card overflow-hidden">
+                        <div className="p-6 border-b border-[var(--border-color)] bg-[var(--bg-secondary)] flex justify-between items-center">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-[var(--accent-indigo)]/10 rounded-lg flex items-center justify-center text-[var(--accent-indigo)]"><Database className="w-5 h-5" /></div>
+                            <div>
+                              <h3 className="font-semibold text-[var(--text-primary)]">{tableName}</h3>
+                              <p className="text-xs text-[var(--text-secondary)]">SQLite Local Table</p>
+                            </div>
+                          </div>
+                          <span className="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div> Connected</span>
+                        </div>
+                        <div className="p-6 bg-[var(--bg-primary)]">
+                          <p className="text-sm font-medium text-[var(--text-secondary)] mb-4 uppercase tracking-wider text-xs">Detected Schema Columns</p>
+                          <div className="flex flex-wrap gap-2">
+                            {/* We deduce columns from the schemaInfo string for this table specifically */}
+                            {schemaInfo.split('-- Sample Data for').find(s => s.trim().startsWith(tableName))?.split('\n')[1]?.split('|').map((col, i) => (
+                              <span key={i} className="px-3 py-1 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-md text-xs text-[var(--text-primary)] font-mono">{col.trim()}</span>
+                            )) || <span className="text-sm text-[var(--text-muted)]">Schema details unavailable in preview.</span>}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              <button onClick={() => setExpandedChart(null)} className="w-20 h-20 absolute-glass rounded-[2rem] border-white/10 flex items-center justify-center text-white hover:bg-rose-500/20 hover:text-rose-500 transition-all active:scale-95"><X className="w-10 h-10" /></button>
-            </div>
-            <div className="flex-1 p-20 flex items-center justify-center">
-              <DynamicChart data={expandedChart.result.data} chartType={expandedChart.result.chartType} config={expandedChart.result.config} isExpanded={true} />
+            )}
+
+            {activeView === 'history' && (
+              <div className="max-w-5xl mx-auto animation-fade-in">
+                <div className="mb-8">
+                  <h2 className="text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-2">Query History</h2>
+                  <p className="text-[var(--text-secondary)]">Review and re-run past logic syntheses.</p>
+                </div>
+
+                {queries.length === 0 ? (
+                  <div className="enterprise-card p-12 text-center flex flex-col items-center justify-center">
+                    <History className="w-12 h-12 text-[var(--text-muted)] mb-4" />
+                    <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">No History Yet</h3>
+                    <p className="text-[var(--text-secondary)] text-sm mb-6">Ask a question in the dashboard to start generating your query history.</p>
+                    <button onClick={() => setActiveView('dashboard')} className="text-[var(--accent-indigo)] hover:underline font-medium text-sm">Return to Dashboard →</button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {queries.slice().reverse().map(q => (
+                      <div key={q.id} className="enterprise-card p-6 flex items-start gap-4 hover:border-[var(--accent-indigo)] transition-colors group">
+                        <div className="w-10 h-10 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center shrink-0 mt-1">
+                          <MessageSquare className="w-4 h-4 text-[var(--text-secondary)]" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-base font-medium text-[var(--text-primary)] mb-2">{q.text}</p>
+                          {q.result && q.result.sql ? (
+                            <pre className="text-xs font-mono text-[var(--text-muted)] bg-[var(--bg-secondary)] p-3 rounded-lg overflow-x-auto border border-[var(--border-color)]">
+                              {q.result.sql.split('\n')[0].substring(0, 100)}...
+                            </pre>
+                          ) : (
+                            <p className="text-xs text-rose-500 font-medium flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {q.result?.clarification || "Query failed"}</p>
+                          )}
+                        </div>
+                        <button onClick={() => { setActiveView('dashboard'); handleQuery(q.text); }} className="px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:bg-[var(--accent-indigo)] hover:text-white rounded-lg text-sm font-medium transition-colors opacity-0 group-hover:opacity-100 flex items-center gap-2">
+                          <Play className="w-3 h-3" /> Re-run
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeView === 'insights' && (
+              <div className="max-w-5xl mx-auto animation-fade-in">
+                <div className="mb-8">
+                  <h2 className="text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-2">AI Insights Feed</h2>
+                  <p className="text-[var(--text-secondary)]">Consolidated narratives generated by Solaris.</p>
+                </div>
+
+                {queries.filter(q => q.result && q.result.config?.description).length === 0 ? (
+                  <div className="enterprise-card p-12 text-center flex flex-col items-center justify-center">
+                    <Lightbulb className="w-12 h-12 text-[var(--text-muted)] mb-4" />
+                    <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">No Insights Generated</h3>
+                    <p className="text-[var(--text-secondary)] text-sm mb-6">Chart summaries and analytical descriptions will appear here.</p>
+                  </div>
+                ) : (
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {queries.filter(q => q.result && q.result.config?.description).slice().reverse().map(q => (
+                      <div key={q.id} className="enterprise-card p-6 border-l-4 border-l-[var(--accent-indigo)] relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><Sparkles className="w-16 h-16 text-[var(--accent-indigo)]" /></div>
+                        <div className="relative z-10">
+                          <h3 className="text-lg font-bold text-[var(--text-primary)] mb-2">{q.result.config.title}</h3>
+                          <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-4">{q.result.config.description}</p>
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-[var(--text-muted)] italic px-2 py-1 bg-[var(--bg-secondary)] rounded">"{q.text.substring(0, 30)}..."</span>
+                            <button onClick={() => { setActiveView('dashboard'); setExpandedChart(q); }} className="text-[var(--accent-indigo)] font-semibold hover:underline">View Chart →</button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeView === 'dashboard' && queries.length === 0 && (
+              <div className="h-full flex flex-col items-center justify-center max-w-2xl mx-auto mt-[-10vh]">
+                <div className="w-16 h-16 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                  <Sparkles className="w-8 h-8 text-[var(--accent-indigo)]" />
+                </div>
+                <h2 className="text-3xl font-bold tracking-tight mb-3 text-[var(--text-primary)]">Ask a question about your data</h2>
+                <p className="text-[var(--text-secondary)] mb-8 text-center text-sm md:text-base">
+                  Solaris AI will analyze your datasets, write the SQL, and generate an interactive dashboard instantly.
+                </p>
+
+                {/* Hero Input Box */}
+                <div className="w-full relative group">
+                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                    <Search className="w-5 h-5 text-[var(--text-muted)]" />
+                  </div>
+                  <input
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleQuery(inputValue);
+                    }}
+                    placeholder="e.g., Show revenue by marketing channel..."
+                    className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] rounded-xl py-4 pl-12 pr-12 shadow-sm focus:ring-2 focus:ring-[var(--accent-indigo)] focus:border-transparent outline-none transition-all placeholder:text-[var(--text-muted)] text-base"
+                  />
+                  <div className="absolute inset-y-0 right-2 flex items-center">
+                    <button onClick={() => handleQuery(inputValue)} className="p-2 bg-[var(--accent-indigo)] text-white rounded-lg hover:bg-[var(--accent-indigo-hover)] transition-colors">
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-8 flex flex-wrap justify-center gap-2">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] w-full text-center mb-2">Example Prompts</span>
+                  {[
+                    "Show revenue by marketing channel",
+                    "Compare ROI across campaign types",
+                    "Show revenue trend over time"
+                  ].map((p, i) => (
+                    <button key={i} onClick={() => handleQuery(p)} className="px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--accent-indigo)] hover:bg-[var(--bg-primary)] rounded-full text-xs font-medium text-[var(--text-secondary)] transition-all">
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeView === 'dashboard' && queries.length > 0 && (
+              <AnimatePresence>
+                {queries.map((q) => (
+                  <motion.div key={q.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-5xl mx-auto space-y-8">
+                    <div className="flex justify-end pr-10">
+                      <div className="bg-indigo-600 px-8 py-5 rounded-[2rem] rounded-tr-sm shadow-2xl relative">
+                        <div className="absolute top-0 right-0 w-8 h-8 bg-indigo-500 blur-2xl rounded-full" />
+                        <p className="text-lg font-bold text-white tracking-tight relative z-10">{q.text}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-6">
+                      <div className="w-12 h-12 absolute-glass rounded-2xl border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-xl shrink-0"><Sparkles className="w-6 h-6 animate-pulse" /></div>
+                      <div className="flex-1 min-w-0">
+                        {q.isLoading ? (
+                          <div className="inline-flex absolute-glass px-6 py-4 rounded-3xl border-white/5 items-center gap-4 shadow-inner mt-2">
+                            <Loader2 className="w-5 h-5 text-indigo-400 animate-spin" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-400 italic">Synthesizing_Patterns...</span>
+                          </div>
+                        ) : (
+                          <DashboardCard result={q.result} onExpand={() => setExpandedChart(q)} onRefine={(t) => handleQuery(t, q.result)} />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* CSV Upload: Show first-look question prompts */}
+                    {!q.isLoading && q.csvSuggestions && q.csvSuggestions.length > 0 && (
+                      <div className="flex flex-col gap-3 pl-[72px] mt-2">
+                        <span className="text-[9px] font-black uppercase tracking-[0.3em] text-cyan-600/70">Start Exploring ↗</span>
+                        <div className="flex flex-wrap gap-3">
+                          {q.csvSuggestions.map((suggestion, i) => (
+                            <button
+                              key={i}
+                              onClick={() => handleQuery(suggestion)}
+                              className="px-5 py-2.5 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-[10px] font-black tracking-wide text-cyan-300 hover:text-white hover:border-cyan-400/60 hover:bg-cyan-500/20 transition-all active:scale-95 flex items-center gap-2"
+                            >
+                              <span className="text-cyan-500">→</span> {suggestion}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* AI Query result: Show dynamic follow-up suggestions */}
+                    {!q.isLoading && !q.csvSuggestions && q.result && !q.result.clarification && (() => {
+                      const r = q.result;
+                      const cols = r.data && r.data[0] ? Object.keys(r.data[0]) : [];
+                      const xKey = r.config?.xKey || cols[0] || '';
+                      const yKey = (r.config?.yKeys && r.config.yKeys[0]) || cols[1] || '';
+
+                      const hasRevenue = cols.some(c => c.toLowerCase().includes('revenue'));
+                      const hasROI = cols.some(c => c.toLowerCase().includes('roi'));
+                      const hasCost = cols.some(c => c.toLowerCase().includes('cost') || c.toLowerCase().includes('acquisition'));
+                      const hasClicks = cols.some(c => c.toLowerCase().includes('click'));
+                      const hasConversions = cols.some(c => c.toLowerCase().includes('conversion'));
+                      const hasEngagement = cols.some(c => c.toLowerCase().includes('engagement'));
+                      const hasDate = cols.some(c => c.toLowerCase().includes('date'));
+                      const xIsCategory = xKey && !xKey.toLowerCase().includes('date');
+
+                      const pool = [];
+                      if (hasROI && xIsCategory) pool.push(`Which ${xKey} is bleeding money with negative ROI?`);
+                      if (hasRevenue && hasConversions) pool.push(`What's the revenue per conversion across each ${xKey}?`);
+                      if (hasClicks && hasConversions) pool.push(`Which ${xKey} has the worst click-to-conversion rate?`);
+                      if (hasCost && hasRevenue) pool.push(`Show the profit margin breakdown — revenue minus acquisition cost`);
+                      if (hasEngagement && xIsCategory) pool.push(`Which ${xKey} drives the highest engagement score?`);
+                      if (hasDate) pool.push(`Has performance improved or declined over the last 6 months?`);
+                      if (hasRevenue && xIsCategory) pool.push(`What share of total revenue does each ${xKey} control?`);
+                      if (hasROI) pool.push(`Find the top 3 highest ROI performers and what they have in common`);
+                      if (hasConversions && hasCost) pool.push(`Which ${xKey} delivers the cheapest conversions?`);
+                      if (hasClicks && xIsCategory) pool.push(`Show the ${xKey} with above-average clicks but below-average conversions`);
+                      if (yKey) pool.push(`What's the statistical average versus top performer gap in ${yKey}?`);
+                      if (xIsCategory) pool.push(`Rank all ${xKey} values by ${yKey || 'performance'} descending`);
+                      if (hasDate) pool.push(`Which month had the biggest spike in ${hasRevenue ? 'revenue' : yKey}?`);
+                      if (hasRevenue) pool.push(`Compare the top and bottom performers by revenue — what's the gap?`);
+
+                      const askedQuestions = new Set(queries.map(q => q.text));
+                      const finalSuggestions = [...new Set(pool.filter(q => !askedQuestions.has(q)).sort(() => 0.5 - Math.random()))].slice(0, 3);
+                      if (finalSuggestions.length === 0) return null;
+
+                      return (
+                        <div className="flex flex-wrap gap-3 pl-[72px] mt-2">
+                          <span className="w-full text-[9px] font-black uppercase tracking-[0.3em] text-slate-600 mb-1">Explore Further ↗</span>
+                          {finalSuggestions.map((suggestion, i) => (
+                            <button
+                              key={i}
+                              onClick={() => handleQuery(suggestion)}
+                              className="px-5 py-2.5 absolute-glass border border-indigo-500/20 rounded-full text-[10px] font-black tracking-wide text-indigo-300 hover:text-white hover:border-indigo-500/60 hover:bg-indigo-500/10 transition-all active:scale-95 flex items-center gap-2"
+                            >
+                              <span className="text-indigo-500">↗</span> {suggestion}
+                            </button>
+                          ))}
+                        </div>
+                      );
+                    })()}
+
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            )}
+            <div ref={bottomRef} className="h-10" />
+          </div>
+
+          {/* Global Hero Input (always visible at bottom) */}
+          <div className="absolute bottom-6 inset-x-0 px-8 flex justify-center">
+            <div className={`w-full max-w-4xl enterprise-card p-2 flex items-center gap-3 shadow-[var(--shadow-elevated)] bg-[var(--bg-primary)] transition-transform duration-300 ${activeView === 'dashboard' ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0 pointer-events-none'}`}>
+              <input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    setActiveView('dashboard');
+                    handleQuery(inputValue);
+                  }
+                }}
+                placeholder="Message Solaris AI..."
+                className="flex-1 bg-transparent px-4 py-2 outline-none text-sm font-medium text-[var(--text-primary)] placeholder:text-[var(--text-muted)]"
+              />
+              <button
+                onClick={() => {
+                  setActiveView('dashboard');
+                  handleQuery(inputValue);
+                }}
+                className="w-10 h-10 bg-[var(--accent-indigo)] text-white rounded-lg hover:bg-[var(--accent-indigo-hover)] transition-all flex items-center justify-center group"
+              >
+                <Play className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </button>
             </div>
           </div>
-        </div>
-      )}
+        </main>
+      </div> {/* Close the main area flex wrapper */}
+
+      <AnimatePresence>
+        {showSettings && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
+            <div className="enterprise-card max-w-md w-full p-8 shadow-2xl relative">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[var(--accent-indigo)]/10 rounded-lg flex items-center justify-center"><Key className="w-5 h-5 text-[var(--accent-indigo)]" /></div>
+                  <div>
+                    <h2 className="text-xl font-bold tracking-tight text-[var(--text-primary)] leading-none">Settings</h2>
+                    <p className="text-xs text-[var(--text-secondary)]">OpenRouter API Configuration</p>
+                  </div>
+                </div>
+                {localStorage.getItem('openrouter_api_key') && (
+                  <button onClick={() => setShowSettings(false)} className="text-[var(--text-muted)] hover:text-[var(--text-primary)]"><X className="w-5 h-5" /></button>
+                )}
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">API Token</label>
+                  <input
+                    type="password"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    className="w-full bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-sm focus:ring-2 ring-[var(--accent-indigo)]/30 outline-none transition-all placeholder:text-[var(--text-muted)] text-[var(--text-primary)]"
+                    placeholder="sk-or-v1-..."
+                  />
+                  <p className="text-xs text-[var(--text-secondary)] mt-2">API keys are stored securely in your browser's local storage and never transmitted to our servers.</p>
+                </div>
+                <button onClick={() => handleSaveApiKey(apiKey)} className="w-full bg-[var(--accent-indigo)] text-white font-semibold py-3 rounded-lg hover:bg-[var(--accent-indigo-hover)] active:scale-95 transition-all text-sm shadow-sm">
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {expandedChart && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[var(--bg-primary)]/90 backdrop-blur-md z-[200] flex items-center justify-center p-6 md:p-12">
+            <div className="enterprise-card w-full h-full max-w-7xl shadow-2xl overflow-hidden flex flex-col">
+              <div className="p-6 md:p-8 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--bg-secondary)]">
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-1">{expandedChart.result.config?.title}</h2>
+                  <p className="text-[var(--text-secondary)] font-medium text-sm">{expandedChart.result.config?.description}</p>
+                </div>
+                <button onClick={() => setExpandedChart(null)} className="w-12 h-12 rounded-xl flex items-center justify-center text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)] transition-all"><X className="w-6 h-6" /></button>
+              </div>
+              <div className="flex-1 p-8 md:p-12 flex items-center justify-center bg-[var(--bg-primary)]">
+                <DynamicChart data={expandedChart.result.data} chartType={expandedChart.result.chartType} config={expandedChart.result.config} isExpanded={true} />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -907,35 +1135,43 @@ const DashboardCard = ({ result, onExpand, onRefine }) => {
   if (!result) return null;
 
   return (
-    <div className="absolute-glass rounded-[3rem] border-white/5 bg-white/2 shadow-2xl overflow-hidden hud-border scanline-effect transition-all duration-700 hover:scale-[1.01]">
-      <div className="p-10 pb-6 flex justify-between items-start">
+    <div className="enterprise-card overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-elevated)]">
+      <div className="p-6 md:p-8 flex justify-between items-start border-b border-[var(--border-color)]">
         <div>
-          <h3 className="text-3xl font-black uppercase tracking-tighter text-white mb-2 italic">{result.config?.title || "Output Segment"}</h3>
-          <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">{result.config?.description || "WASM Synthesis Layer active."}</p>
+          <h3 className="text-xl md:text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-1">
+            {result.config?.title || "Analytical Insights"}
+          </h3>
+          <p className="text-[var(--text-secondary)] font-medium text-sm">
+            {result.config?.description || "Generated by Solaris Engine"}
+          </p>
         </div>
-        <div className="flex gap-4">
-          <button onClick={() => setShowSql(!showSql)} className={`w-12 h-12 rounded-2xl border transition-all flex items-center justify-center ${showSql ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white/5 text-slate-500 border-white/5 hover:border-indigo-500/40 hover:text-indigo-400'}`}><Code className="w-5 h-5" /></button>
-          <button onClick={onExpand} className="w-12 h-12 bg-white/5 border border-white/5 rounded-2xl text-slate-500 hover:border-indigo-500/40 hover:text-indigo-400 transition-all flex items-center justify-center"><Maximize2 className="w-5 h-5" /></button>
-          <button onClick={() => setShowRefine(!showRefine)} className={`w-12 h-12 rounded-2xl border transition-all flex items-center justify-center ${showRefine ? 'bg-rose-500 text-white border-rose-500' : 'bg-white/5 text-slate-500 border-white/5 hover:border-rose-500/40 hover:text-rose-400'}`}><Plus className="w-5 h-5" /></button>
+        <div className="flex gap-2">
+          <button onClick={() => setShowSql(!showSql)} className={`p-2 rounded-lg transition-all flex items-center justify-center ${showSql ? 'bg-[var(--accent-indigo)] text-white' : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'}`} title="View Retrieved Context (RAG)"><Code className="w-4 h-4" /></button>
+          <button onClick={onExpand} className="p-2 bg-[var(--bg-secondary)] text-[var(--text-secondary)] rounded-lg hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)] transition-all flex items-center justify-center" title="Expand Chart"><Maximize2 className="w-4 h-4" /></button>
+          <button onClick={() => setShowRefine(!showRefine)} className={`p-2 rounded-lg transition-all flex items-center justify-center ${showRefine ? 'bg-[var(--accent-rose)] text-white' : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]'}`} title="Refine Query"><Plus className="w-4 h-4" /></button>
         </div>
       </div>
 
       <AnimatePresence>
         {showSql && (
-          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden bg-[#000000]/40">
-            <div className="p-10 space-y-4">
-              <div className="flex items-center gap-3 text-indigo-400 uppercase tracking-widest font-black text-[10px]"><Terminal className="w-4 h-4" /> LOGIC_TRACE_V4.2</div>
-              <pre className="whitespace-pre-wrap font-mono text-[11px] text-cyan-300 leading-relaxed bg-[#020617]/50 p-6 rounded-2xl border border-white/5">{result.sql}</pre>
+          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden bg-[var(--bg-secondary)] border-b border-[var(--border-color)]">
+            <div className="p-6 md:p-8 space-y-4">
+              <div className="flex items-center gap-2 text-[var(--accent-indigo)] font-semibold text-xs uppercase tracking-wider">
+                <Database className="w-4 h-4" /> Retrieved Context (RAG)
+              </div>
+              <pre className="whitespace-pre-wrap font-mono text-xs text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-primary)] p-4 rounded-lg border border-[var(--border-color)] overflow-x-auto">
+                {result.sql}
+              </pre>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="p-10 h-[450px]">
+      <div className="p-6 md:p-8 h-[400px]">
         {result.clarification ? (
-          <div className="h-full flex flex-col items-center justify-center p-12 bg-indigo-500/[0.03] rounded-[2.5rem] border border-dashed border-indigo-500/20 text-center scale-95 opacity-80 backdrop-blur-sm">
-            <AlertCircle className="w-14 h-14 text-indigo-500/40 mb-6" />
-            <p className="text-indigo-300 font-bold uppercase tracking-widest text-sm max-w-sm leading-relaxed">{result.clarification}</p>
+          <div className="h-full flex flex-col items-center justify-center p-8 bg-[var(--bg-secondary)] rounded-xl border border-dashed border-[var(--border-color)] text-center">
+            <AlertCircle className="w-10 h-10 text-[var(--text-muted)] mb-4" />
+            <p className="text-[var(--text-secondary)] font-medium text-sm max-w-md leading-relaxed">{result.clarification}</p>
           </div>
         ) : (
           <DynamicChart data={result.data} chartType={result.chartType} config={result.config} />
@@ -944,32 +1180,30 @@ const DashboardCard = ({ result, onExpand, onRefine }) => {
 
       <AnimatePresence>
         {showRefine && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="p-10 pt-0">
-            <div className="bg-white/5 border border-white/5 p-3 rounded-[2.5rem] flex gap-4 shadow-inner">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="p-6 pt-0 border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
+            <div className="mt-6 bg-[var(--bg-primary)] border border-[var(--border-color)] p-2 rounded-xl flex gap-3 shadow-sm">
               <input
                 value={refineValue}
                 onChange={(e) => setRefineValue(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') { onRefine(refineValue); setShowRefine(false); } }}
-                placeholder="REFINE DATA LOGIC..."
-                className="flex-1 bg-transparent px-8 outline-none font-black italic text-white placeholder:text-slate-700 uppercase tracking-tighter"
+                placeholder="Ask a follow-up question or refine this chart..."
+                className="flex-1 bg-transparent px-4 py-2 outline-none text-[var(--text-primary)] placeholder:text-[var(--text-muted)] text-sm"
               />
-              <button onClick={() => { onRefine(refineValue); setShowRefine(false); }} className="bg-rose-500 hover:bg-rose-600 text-white px-10 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all shadow-xl active:scale-90">RE_SYNC</button>
+              <button onClick={() => { onRefine(refineValue); setShowRefine(false); }} className="bg-[var(--accent-indigo)] hover:bg-[var(--accent-indigo-hover)] text-white px-6 py-2 rounded-lg font-semibold text-xs transition-all shadow-sm">
+                Apply Update
+              </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="px-12 py-6 bg-white/[0.01] border-t border-white/5 flex justify-between items-center">
-        <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em]">Solaris_Absolute_Engine // 0x42ff</span>
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-            <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">ACTIVE_STABLE</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Activity className="w-3 h-3 text-indigo-500" />
-            <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Spectral_Sync: 100%</span>
-          </div>
+      <div className="px-6 py-4 bg-[var(--bg-secondary)] border-t border-[var(--border-color)] flex justify-between items-center text-xs">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-[var(--accent-indigo)]" />
+          <span className="font-medium text-[var(--text-secondary)]">AI Insight Generated</span>
+        </div>
+        <div className="flex items-center gap-2 text-[var(--text-muted)] font-medium">
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Secure Local Execution
         </div>
       </div>
     </div>
